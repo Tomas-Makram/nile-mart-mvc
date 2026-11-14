@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nile-Mart</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* header + add button (نفس ستايل صفحة الـ Brands) */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-row h1 {
+            margin: 0;
+        }
+
+        .btn-add {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header-row">
+    <h1>Available Products</h1>
+    <a th:href="@{/products/new}" class="btn-add">+ Add New Product</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Brand</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="product : ${availableProducts}">
+        <td th:text="${product.sku}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.inStock}"></td>
+
+        <td th:text="${categoryNames.get(product.category)} ?: ${product.category}"></td>
+
+        <td th:text="${product.brandSlug == null or product.brandSlug.isBlank()
+              ? '--'
+              : (brandNames[product.brandSlug] ?: product.brandSlug)}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<nav th:fragment="menu" style="margin-bottom:20px">
+    <a th:href="@{/products}">Products</a> |
+    <a th:href="@{/categories}">Categories</a> |
+    <a th:href="@{/brands}">Brands</a>
+</nav>
+</body>
+</html>

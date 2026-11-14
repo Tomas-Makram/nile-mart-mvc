@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nile-Mart - Add Product</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        h1 { color: #333; margin-bottom: 24px; }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-width: 560px;
+        }
+
+        .field { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .error { color: #dc3545; font-size: 13px; margin-top: 4px; display: block; }
+
+        .btn {
+            padding: 10px 22px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover { background: #000; }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+
+<body>
+
+<h1>Add New Product</h1>
+
+<div class="card">
+    <form th:action="@{/products}" th:object="${product}" method="post">
+
+        <!-- SKU -->
+        <div class="field">
+            <label for="sku">SKU</label>
+            <input type="text" id="sku"
+                   th:field="*{sku}"
+                   placeholder="e.g. PH-A55-128">
+            <span class="error"
+                  th:if="${#fields.hasErrors('sku')}"
+                  th:errors="*{sku}"></span>
+        </div>
+
+        <!-- Name -->
+        <div class="field">
+            <label for="name">Product Name</label>
+            <input type="text" id="name"
+                   th:field="*{name}"
+                   placeholder="e.g. Samsung Galaxy A55 128GB">
+            <span class="error"
+                  th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}"></span>
+        </div>
+
+        <!-- Category -->
+        <div class="field">
+            <label for="category">Category</label>
+            <select id="category" th:field="*{category}">
+                <option value="">-- Select category --</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.slug}"
+                        th:text="${cat.categoryName}"></option>
+            </select>
+            <span class="error"
+                  th:if="${#fields.hasErrors('category')}"
+                  th:errors="*{category}"></span>
+        </div>
+
+        <!-- Brand -->
+        <div class="field">
+            <label for="brandSlug">Brand</label>
+            <select id="brandSlug" th:field="*{brandSlug}">
+                <option value="">No brand</option>
+                <option th:each="b : ${brands}"
+                        th:value="${b.slug}"
+                        th:text="${b.brandName}"></option>
+            </select>
+            <span class="error"
+                  th:if="${#fields.hasErrors('brandSlug')}"
+                  th:errors="*{brandSlug}"></span>
+        </div>
+
+        <!-- Price -->
+        <div class="field">
+            <label for="price">Price</label>
+            <input type="number" id="price" step="0.01"
+                   th:field="*{price}"
+                   placeholder="e.g. 18500.00">
+            <span class="error"
+                  th:if="${#fields.hasErrors('price')}"
+                  th:errors="*{price}"></span>
+        </div>
+
+        <!-- Stock -->
+        <div class="field">
+            <label for="inStock">Stock</label>
+            <input type="number" id="inStock"
+                   th:field="*{inStock}"
+                   placeholder="e.g. 10">
+            <span class="error"
+                  th:if="${#fields.hasErrors('inStock')}"
+                  th:errors="*{inStock}"></span>
+        </div>
+
+        <button type="submit" class="btn">Save Product</button>
+    </form>
+</div>
+
+<a th:href="@{/products}" class="back-link"> <- Back to products</a>
+
+</body>
+</html>

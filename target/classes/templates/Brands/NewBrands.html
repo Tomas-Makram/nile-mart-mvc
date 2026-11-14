@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nile-Mart - Add Brand</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-width: 520px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-row label {
+            display: inline;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Add New Brand</h1>
+
+<div class="card">
+    <form th:action="@{/brands}" th:object="${newBrand}" method="post">
+
+        <!-- Brand Name -->
+        <div class="field">
+            <label for="brandName">Brand Name</label>
+            <input type="text" id="brandName" th:field="*{brandName}" placeholder="e.g. Samsung">
+            <span class="error"
+                  th:if="${#fields.hasErrors('brandName')}"
+                  th:errors="*{brandName}"></span>
+        </div>
+
+        <!-- Slug -->
+        <div class="field">
+            <label for="slug">Slug</label>
+            <input type="text" id="slug" th:field="*{slug}" placeholder="e.g. samsung">
+            <span class="error"
+                  th:if="${#fields.hasErrors('slug')}"
+                  th:errors="*{slug}"></span>
+        </div>
+
+        <!-- Active -->
+        <div class="field checkbox-row">
+            <input type="hidden" name="_active" value="on"/>
+            <input type="checkbox" id="active" th:field="*{active}"/>
+            <label for="active">Active</label>
+        </div>
+
+        <button type="submit" class="btn">Save Brand</button>
+    </form>
+</div>
+
+<a th:href="@{/brands}" class="back-link"> <- Back to brands</a>
+
+</body>
+</html>

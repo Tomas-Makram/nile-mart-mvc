@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nile-Mart - Add Category</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        h1 { color: #333; margin-bottom: 24px; }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-width: 560px;
+        }
+
+        .field { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-row label { display: inline; margin: 0; font-weight: normal; }
+
+        .error { color: #dc3545; font-size: 13px; margin-top: 4px; display: block; }
+
+        .hint { color: #888; font-size: 12px; margin-top: 4px; display: block; }
+
+        .btn {
+            padding: 10px 22px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover { background: #000; }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+
+<body>
+
+<h1>Add New Category</h1>
+
+<div class="card">
+        <form th:action="@{/categories}" th:object="${newCategory}" method="post">
+
+        <!-- Category Name -->
+        <div class="field">
+            <label for="categoryName">Category Name</label>
+            <input type="text" id="categoryName"
+                   th:field="*{categoryName}"
+                   placeholder="e.g. Mobile Phones">
+            <span class="error"
+                  th:if="${#fields.hasErrors('categoryName')}"
+                  th:errors="*{categoryName}"></span>
+        </div>
+
+        <!-- Slug -->
+        <div class="field">
+            <label for="slug">Slug</label>
+            <input type="text" id="slug"
+                   th:field="*{slug}"
+                   placeholder="e.g. mobile-phones">
+            <span class="error"
+                  th:if="${#fields.hasErrors('slug')}"
+                  th:errors="*{slug}"></span>
+        </div>
+
+        <!-- Parent Category -->
+        <div class="field">
+            <label for="parentSlug">Parent Category</label>
+            <select id="parentSlug" th:field="*{parentSlug}">
+                <option value="">None (Top-level)</option>
+                <option th:each="p : ${parents}"
+                        th:value="${p.slug}"
+                        th:text="${p.categoryName}"></option>
+            </select>
+            <span class="error"
+                  th:if="${#fields.hasErrors('parentSlug')}"
+                  th:errors="*{parentSlug}"></span>
+        </div>
+
+        <!-- Display Order -->
+        <div class="field">
+            <label for="displayOrder">Display Order</label>
+            <input type="number" id="displayOrder"
+                   th:field="*{displayOrder}"
+                   min="0" value="0">
+            <span class="error"
+                  th:if="${#fields.hasErrors('displayOrder')}"
+                  th:errors="*{displayOrder}"></span>
+        </div>
+
+        <!-- Active -->
+        <div class="field checkbox-row">
+            <input type="hidden" name="_active" value="on"/>
+            <input type="checkbox" id="active" th:field="*{active}"/>
+            <label for="active">Active</label>
+        </div>
+
+        <button type="submit" class="btn">Save Category</button>
+    </form>
+</div>
+
+<a th:href="@{/categories}" class="back-link"> <- Back to categories</a>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nile-Mart - Brands</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* badge للـ active */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .badge-yes {
+            background-color: #28a745;
+        }
+
+        .badge-no {
+            background-color: #dc3545;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-row h1 {
+            margin: 0;
+        }
+
+        .btn-add {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header-row">
+    <h1>Available Brands</h1>
+    <a th:href="@{/brands/new}" class="btn-add">+ Add New Brand</a>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Brand Name</th>
+        <th>Slug</th>
+        <th>Active</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:if="${#lists.isEmpty(allBrands)}">
+        <td colspan="4" class="empty">No brands found</td>
+    </tr>
+
+    <tr th:each="brand, iter : ${allBrands}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="${brand.brandName}"></td>
+        <td th:text="${brand.slug}"></td>
+        <td>
+            <span th:if="${brand.active}"
+                  class="badge badge-yes"
+                  th:text="'Yes'"></span>
+            <span th:unless="${brand.active}"
+                  class="badge badge-no"
+                  th:text="'No'"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<nav th:fragment="menu" style="margin-bottom:20px">
+    <a th:href="@{/products}">Products</a> |
+    <a th:href="@{/categories}">Categories</a> |
+    <a th:href="@{/brands}">Brands</a>
+</nav>
+
+</body>
+</html>
